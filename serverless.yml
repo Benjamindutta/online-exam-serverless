@@ -1,0 +1,64 @@
+service: question-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  versionFunctions: false
+  stage: "dev"
+  region: ap-south-1
+  httpApi:
+    cors: true
+  environment:
+    REGION: ${self:provider.region}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+        - s3:PutObject
+      Resource: "*"
+package:
+  excludeDevDependencies: true
+  include:
+    - build/**
+
+resources:
+  Resources:
+    FileBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-bucket-examupdation
+        AccessControl: Private
+
+functions:
+  question:
+    handler: app/handler.addQuestion
+    events:
+      - httpApi:
+          path: /question
+          method: post
+  exam:
+    handler: app/handler.getExam
+    events:
+      - httpApi:
+          path: /exam
+          method: get
+
+  submitExam:
+    handler: app/handler.submitExam
+    events:
+      - httpApi:
+          path: /submit-exam
+          method: post
+  image-api:
+    handler: app/handler.imageUploader
+    environment:
+      BUCKET_NAME: ${self:service}-bucket-examupdation
+    events:
+      - httpApi:
+          path: /image-api
+          method: get
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
