@@ -1,10 +1,10 @@
 import { Client } from "pg";
 export const DBClient = () => {
     return new Client({
-        host: "question-service.cl3i5hnhf14q.ap-south-1.rds.amazonaws.com",
+        host: "127.0.0.1",
         user: "root",
-        // database: "exam-db",//for local
-        database: "examdb",
+        database: "exam-db",//for local
+        // database: "examdb",//for prod
         password: "bd123456",
         port: 5432
     })

@@ -20,7 +20,7 @@ export class QuestionRepository {
             }
         } catch (error) {
             console.log(error);
-            return { message: error }
+            throw new Error(error);
         }
     }
     async saveOptionalQuestion({ question, optionA, optionB, optionC, optionD, correctOption }: OptionalModel) {
@@ -37,9 +37,7 @@ export class QuestionRepository {
             }
         } catch (error) {
             console.log(error)
-            return {
-                message: error
-            }
+            throw new Error(error);
         }
     }
     async getQuestions(optionalQuestion: number, descQuestion: number) {
@@ -60,9 +58,7 @@ export class QuestionRepository {
             }
         } catch (error) {
             console.log(error)
-            return {
-                message: error
-            }
+            throw new Error(error);
         }
 
     }
@@ -80,9 +76,7 @@ export class QuestionRepository {
             }
         } catch (error) {
             console.log(error)
-            return {
-                message: error
-            }
+            throw new Error(error);
         }
     }
 
@@ -100,9 +94,7 @@ export class QuestionRepository {
             }
         } catch (error) {
             console.log(error);
-            return {
-                message: error
-            }
+            throw new Error(error);
         }
     }
 }
